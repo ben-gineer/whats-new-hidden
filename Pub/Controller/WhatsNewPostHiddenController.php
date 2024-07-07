@@ -2,21 +2,24 @@
 
 namespace Drn\WhatsNewHidden\Pub\Controller;
 
-use XF\Pub\Controller\WhatsNewPost;
-
+use Drn\WhatsNewHidden\ControllerPlugin\FindNewHiddenPlugin;
+use XF\FindNew\AbstractHandler;
+use XF\Pub\Controller\WhatsNewPostController;
 use XF\Mvc\ParameterBag;
 
-class WhatsNewPostHidden extends WhatsNewPost
+class WhatsNewPostHiddenController extends WhatsNewPostController
 {
 
     public function actionIndex(ParameterBag $params)
     {
+        $this->assertNotEmbeddedImageRequest();
+
         if ($this->options()->drnWhatsNewHiddenStyleId) {
             $this->setViewOption('style_id', $this->options()->drnWhatsNewHiddenStyleId);
         }
 
-        /** @var \Drn\WhatsNewHidden\ControllerPlugin\FindNewHidden $findNewPlugin */
-        $findNewPlugin = $this->plugin('Drn\WhatsNewHidden:FindNewHidden');
+        /** @var FindNewHiddenPlugin $findNewPlugin */
+        $findNewPlugin = $this->plugin(FindNewHiddenPlugin::class);
         $contentType = $this->getContentType();
 
         $handler = $findNewPlugin->getFindNewHandler($contentType);
@@ -64,14 +67,18 @@ class WhatsNewPostHidden extends WhatsNewPost
         $results = $handler->getPageResults($pageIds);
 
         return $handler->getPageReply(
-            $this, $findNew, $results->toArray(), $page, $perPage
+            $this,
+            $findNew,
+            $results->toArray(),
+            $page,
+            $perPage
         );
     }
 
-    protected function triggerNewFindNewAction(\XF\FindNew\AbstractHandler $handler, array $filters)
+    protected function triggerNewFindNewAction(AbstractHandler $handler, array $filters)
     {
-        /** @var \Drn\WhatsNewHidden\ControllerPlugin\FindNewHidden $findNewPlugin */
-        $findNewPlugin = $this->plugin('Drn\WhatsNewHidden:FindNewHidden');
+        /** @var FindNewHiddenPlugin $findNewPlugin */
+        $findNewPlugin = $this->plugin(FindNewHiddenPlugin::class);
 
         $findNew = $findNewPlugin->runFindNewSearch($handler, $filters);
         if (!$findNew->result_count && !$findNew->filters)

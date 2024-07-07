@@ -2,7 +2,9 @@
 
 namespace Drn\WhatsNewHidden\Widget;
 
+use Drn\WhatsNewHidden\Repository\ThreadHiddenRepository;
 use XF\Widget\NewThreads;
+use XF\Entity\Thread;
 
 class NewThreadsHidden extends NewThreads
 {
@@ -19,11 +21,12 @@ class NewThreadsHidden extends NewThreads
 		$limit = $options['limit'];
 		$style = $options['style'];
 		$nodeIds = $options['node_ids'];
+        $dateLimit = $options['date_limit_days'] ?? 0;
 
-		$router = $this->app->router('public');
+        $router = $this->app->router('public');
 
-        /** @var \Drn\WhatsNewHidden\Repository\ThreadHidden $repo */
-        $threadRepo = $this->repository('Drn\WhatsNewHidden:ThreadHidden');
+        /** @var ThreadHiddenRepository $repo */
+        $threadRepo = $this->repository(ThreadHiddenRepository::class);
 
 		$threadFinder = $threadRepo->findLatestThreads();
 		$title = \XF::phrase('latest_threads');
@@ -38,20 +41,25 @@ class NewThreadsHidden extends NewThreads
 			$threadFinder->where('node_id', $nodeIds);
 		}
 
-		if ($style == 'full' || $style == 'expanded')
-		{
-			$threadFinder->forFullView(true);
-			if ($style == 'expanded')
-			{
-				$threadFinder->with('FirstPost');
-			}
-		}
+        if ($dateLimit > 0)
+        {
+            $threadFinder->where('post_date', '>=', \XF::$time - ($dateLimit * 86400));
+        }
 
-		/** @var \XF\Entity\Thread $thread */
+        if ($style == 'full')
+        {
+            $threadFinder->with('fullForum');
+        }
+        if ($style == 'expanded')
+        {
+            $threadFinder->with('FirstPost');
+        }
+
+		/** @var Thread $thread */
 		foreach ($threads = $threadFinder->fetch() AS $threadId => $thread)
 		{
 			if (!$thread->canView()
-				|| $visitor->isIgnoring($thread->user_id)
+                || $thread->isIgnored()
 			)
 			{
 				unset($threads[$threadId]);
@@ -62,7 +70,6 @@ class NewThreadsHidden extends NewThreads
 				unset($threads[$threadId]);
 			}
 		}
-		$total = $threads->count();
 		$threads = $threads->slice(0, $limit, true);
 
 		$viewParams = [
@@ -70,7 +77,6 @@ class NewThreadsHidden extends NewThreads
 			'link' => $link,
 			'threads' => $threads,
 			'style' => $options['style'],
-			'hasMore' => $total > $threads->count(),
 			'showExpandedTitle' => $options['show_expanded_title']
 		];
 		return $this->renderer('widget_new_threads', $viewParams);

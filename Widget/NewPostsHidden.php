@@ -2,7 +2,9 @@
 
 namespace Drn\WhatsNewHidden\Widget;
 
+use XF\Entity\Thread;
 use XF\Widget\NewPosts;
+use Drn\WhatsNewHidden\Repository\ThreadHiddenRepository;
 
 class NewPostsHidden extends NewPosts
 {
@@ -27,8 +29,8 @@ class NewPostsHidden extends NewPosts
 
 		$router = $this->app->router('public');
 
-        /** @var \Drn\WhatsNewHidden\Repository\ThreadHidden $repo */
-        $threadRepo = $this->repository('Drn\WhatsNewHidden:ThreadHidden');
+        /** @var ThreadHiddenRepository $repo */
+        $threadRepo = $this->repository(ThreadHiddenRepository::class);
 
 		switch ($filter)
 		{
@@ -63,7 +65,7 @@ class NewPostsHidden extends NewPosts
 
 		if ($options['style'] == 'full')
 		{
-			$threadFinder->forFullView(true);
+			$threadFinder->with('fullForum');
 		}
 		else
 		{
@@ -72,11 +74,11 @@ class NewPostsHidden extends NewPosts
 				->withReadData();
 		}
 
-		/** @var \XF\Entity\Thread $thread */
+		/** @var Thread $thread */
 		foreach ($threads = $threadFinder->fetch() AS $threadId => $thread)
 		{
 			if (!$thread->canView()
-				|| $visitor->isIgnoring($thread->user_id)
+				|| $thread->isIgnored()
 				|| $visitor->isIgnoring($thread->last_post_user_id)
 			)
 			{
@@ -92,7 +94,7 @@ class NewPostsHidden extends NewPosts
 			'threads' => $threads,
 			'style' => $options['style'],
 			'filter' => $filter,
-			'hasMore' => $total > $threads->count()
+			'hasMore' => $total > $threads->count(),
 		];
 		return $this->renderer('widget_new_posts', $viewParams);
 	}

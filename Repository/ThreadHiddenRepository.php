@@ -2,21 +2,22 @@
 
 namespace Drn\WhatsNewHidden\Repository;
 
-use XF\Repository\Thread;
+use XF\Finder\ThreadFinder;
+use XF\Repository\ThreadRepository;
 
 /**
- * Class ThreadHidden
+ * Class ThreadHiddenRepository
  * @package Drn\WhatsNewHidden\Repository
  */
-class ThreadHidden extends Thread
+class ThreadHiddenRepository extends ThreadRepository
 {
     /**
      * Find latest threads that are hidden.
-     * @return \XF\Finder\Thread
+     * @return ThreadFinder
      */
     public function findLatestThreads()
     {
-        return $this->finder('XF:Thread')
+        return $this->finder(ThreadFinder::class)
             ->with(['Forum', 'User'])
             ->where('node_id', $this->options()->drnWhatsNewHiddenForums)
             ->where('discussion_state', 'visible')
@@ -27,11 +28,11 @@ class ThreadHidden extends Thread
 
     /**
      * Find latest threads with posts that are hidden.
-     * @return \XF\Finder\Thread
+     * @return ThreadFinder
      */
     public function findThreadsWithLatestPosts()
     {
-        return $this->finder('XF:Thread')
+        return $this->finder(ThreadFinder::class)
             ->with(['Forum', 'User'])
             ->where('node_id', $this->options()->drnWhatsNewHiddenForums)
             ->where('discussion_state', 'visible')

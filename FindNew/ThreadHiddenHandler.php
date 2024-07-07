@@ -3,9 +3,12 @@
 namespace Drn\WhatsNewHidden\FindNew;
 
 use XF\Entity\FindNew;
-use XF\FindNew\Thread;
+use XF\Entity\Thread;
+use XF\Finder\ThreadFinder;
+use XF\FindNew\ThreadHandler;
+use XF\Mvc\Controller;
 
-class ThreadHidden extends Thread
+class ThreadHiddenHandler extends ThreadHandler
 {
 	public function getRoute()
 	{
@@ -14,11 +17,11 @@ class ThreadHidden extends Thread
 		return 'market-whats-new/posts';
 	}
 
-	public function getPageReply(\XF\Mvc\Controller $controller, FindNew $findNew, array $results, $page, $perPage)
+	public function getPageReply(Controller $controller, FindNew $findNew, array $results, $page, $perPage)
 	{
 		$canInlineMod = false;
 
-		/** @var \XF\Entity\Thread $thread */
+		/** @var Thread $thread */
 		foreach ($results AS $thread)
 		{
 			if ($thread->canUseInlineModeration())
@@ -44,8 +47,8 @@ class ThreadHidden extends Thread
 	{
 		$visitor = \XF::visitor();
 
-		/** @var \XF\Finder\Thread $threadFinder */
-		$threadFinder = \XF::finder('XF:Thread')
+		/** @var ThreadFinder $threadFinder */
+		$threadFinder = \XF::finder(ThreadFinder::class)
 			->with('Forum', true)
 			->with('Forum.Node.Permissions|' . $visitor->permission_combination_id)
             ->where('node_id', $visitor->app()->options()->drnWhatsNewHiddenForums)

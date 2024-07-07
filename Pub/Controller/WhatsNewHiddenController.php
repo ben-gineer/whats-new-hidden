@@ -2,12 +2,14 @@
 
 namespace Drn\WhatsNewHidden\Pub\Controller;
 
-use XF\Pub\Controller\WhatsNew;
+use XF\Pub\Controller\WhatsNewController;
 
-class WhatsNewHidden extends WhatsNew
+class WhatsNewHiddenController extends WhatsNewController
 {
     public function actionIndex()
     {
+        $this->assertNotEmbeddedImageRequest();
+
         $this->assertCanonicalUrl($this->buildLink('market-whats-new'));
 
         $viewParams = [];

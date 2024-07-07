@@ -2,18 +2,19 @@
 
 namespace Drn\WhatsNewHidden\ControllerPlugin;
 
-use XF\ControllerPlugin\FindNew;
+use XF\FindNew\AbstractHandler;
+use XF\ControllerPlugin\FindNewPlugin;
 
-class FindNewHidden extends FindNew
+class FindNewHiddenPlugin extends FindNewPlugin
 {
 	/**
 	 * @param string $contentType;
 	 *
-	 * @return \XF\FindNew\AbstractHandler|null
+	 * @return AbstractHandler|null
 	 */
 	public function getFindNewHandler($contentType)
 	{
-        $handlerClass = "Drn\WhatsNewHidden\FindNew\ThreadHidden";
+        $handlerClass = "Drn\WhatsNewHidden\FindNew\ThreadHiddenHandler";
         $handlerClass = \XF::extendClass($handlerClass);
         return new $handlerClass($contentType);
 	}
