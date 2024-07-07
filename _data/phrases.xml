@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="nav.market" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[Market]]></phrase>
+  <phrase title="nav.marketCars" version_id="100037" version_string="1.0.3"><![CDATA[Cars]]></phrase>
+  <phrase title="nav.marketNewPosts" version_id="100067" version_string="1.0.6"><![CDATA[New posts]]></phrase>
+  <phrase title="nav.marketParts" version_id="100037" version_string="1.0.3"><![CDATA[Parts]]></phrase>
+  <phrase title="nav.marketSold" version_id="100037" version_string="1.0.3"><![CDATA[Sold]]></phrase>
+  <phrase title="nav.marketSpotted" version_id="100037" version_string="1.0.3"><![CDATA[Spotted]]></phrase>
+  <phrase title="nav.marketWanted" version_id="100037" version_string="1.0.3"><![CDATA[Wanted]]></phrase>
+  <phrase title="option.drnWhatsNewHiddenForums" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[Forums to include]]></phrase>
+  <phrase title="option.drnWhatsNewHiddenStyleId" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[Style]]></phrase>
+  <phrase title="option_explain.drnWhatsNewHiddenForums" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[The forums to include]]></phrase>
+  <phrase title="option_explain.drnWhatsNewHiddenStyleId" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[Override the default style]]></phrase>
+  <phrase title="option_group.drnWhatsNewHidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[Drn - Whats New Hidden]]></phrase>
+  <phrase title="option_group_description.drnWhatsNewHidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[Options for configuring the What's New Hidden add-on]]></phrase>
+  <phrase title="widget_def.new_posts_hidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[New posts (hidden)]]></phrase>
+  <phrase title="widget_def.new_threads_hidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[New threads (hidden)]]></phrase>
+  <phrase title="widget_def_desc.new_posts_hidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[Displays a block containing a list of X hidden posts which have most recently been posted in.]]></phrase>
+  <phrase title="widget_def_desc.new_threads_hidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[Displays a block containing a list of X hidden threads which have most recently been created.]]></phrase>
+</phrases>

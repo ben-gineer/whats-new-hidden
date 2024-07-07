@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="public" title="whats_new_hidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('whats_new') }}</xf:title>
+
+
+<xf:widgetpos id="whats_new_overview" />]]></template>
+  <template type="public" title="whats_new_posts_hidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[<xf:title page="{$page}">{{ phrase('new_posts') }}</xf:title>
+
+
+<xf:pageaction>
+	<xf:if is="$xf.visitor.canCreateThread()">
+		<xf:button href="{{ link('forums/create-thread') }}" class="button--cta" icon="write" overlay="true">
+			{{ phrase('post_thread...') }}
+		</xf:button>
+	</xf:if>
+</xf:pageaction>
+
+<xf:if is="$canInlineMod">
+	<xf:js src="xf/inline_mod.js" min="1" />
+</xf:if>
+
+<div class="block" data-xf-init="{{ $canInlineMod ? 'inline-mod' : '' }}" data-type="thread" data-href="{{ link('inline-mod') }}">
+	<xf:if is="$findNew.result_count">
+		<div class="block-outer">
+			<xf:pagenav
+				page="{$page}" perpage="{$perPage}" total="{$findNew.result_count}"
+				link="market-whats-new/posts" data="{$findNew}"
+				wrapperclass="block-outer-main" />
+
+			<xf:if contentcheck="true">
+				<div class="block-outer-opposite">
+					<div class="buttonGroup">
+					<xf:contentcheck>
+						<xf:macro name="buttons"
+							arg-findNew="{$findNew}"
+							arg-canInlineMod="{$canInlineMod}" />
+					</xf:contentcheck>
+					</div>
+				</div>
+			</xf:if>
+		</div>
+	</xf:if>
+
+	<div class="block-container">
+		<xf:macro name="filter_bar"
+			arg-findNew="{$findNew}"
+			arg-rerunRoute="market-whats-new/posts"
+			arg-rerunData="{$findNew}"
+			arg-filterRoute="market-whats-new/posts" />
+
+		<xf:macro name="results"
+			arg-findNew="{$findNew}"
+			arg-threads="{$threads}"
+			arg-latestRoute="market-whats-new/posts" />
+	</div>
+
+	<xf:if is="$findNew.result_count">
+		<div class="block-outer block-outer--after">
+			<xf:pagenav
+				page="{$page}" perpage="{$perPage}" total="{$findNew.result_count}"
+				link="market-whats-new/posts" data="{$findNew}"
+				wrapperclass="block-outer-main" />
+			<xf:showignored wrapperclass="block-outer-opposite" />
+		</div>
+	</xf:if>
+</div>
+
+<xf:macro name="buttons"
+	arg-findNew="!"
+	arg-canInlineMod="{{ false }}">
+
+	<xf:if is="$canInlineMod">
+		<xf:macro template="inline_mod_macros" name="button" />
+	</xf:if>
+	<xf:if is="$xf.visitor.user_id">
+		<xf:button href="{{ link('forums/mark-read', null, {'date': $findNew.cache_date}) }}"
+			class="button--link" overlay="true">
+			{{ phrase('mark_forums_read') }}
+		</xf:button>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="filter_bar"
+	arg-findNew="!"
+	arg-rerunRoute="!"
+	arg-rerunData="{{ null }}"
+	arg-rerunQuery="{{ [] }}"
+	arg-filterRoute="!">
+
+	<xf:if is="$xf.visitor.user_id">
+		<div class="block-filterBar">
+			<div class="filterBar">
+				<xf:if contentcheck="true">
+					<ul class="filterBar-filters">
+					<xf:contentcheck>
+						<!--[XF:filters:top]-->
+						<xf:if is="$findNew.filters.unread">
+							<li><a href="{{ link($rerunRoute, $rerunData, $rerunQuery + {'remove': 'unread'}) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+								<span class="filterBar-filterToggle-label">{{ phrase('show_only:') }}</span>
+								{{ phrase('filter_unread') }}</a></li>
+						</xf:if>
+						<xf:if is="$findNew.filters.watched">
+							<li><a href="{{ link($rerunRoute, $rerunData, $rerunQuery + {'remove': 'watched'}) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+								<span class="filterBar-filterToggle-label">{{ phrase('show_only:') }}</span>
+								{{ phrase('filter_watched') }}</a></li>
+						</xf:if>
+						<xf:if is="$findNew.filters.participated">
+							<li><a href="{{ link($rerunRoute, $rerunData, $rerunQuery + {'remove': 'participated'}) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+								<span class="filterBar-filterToggle-label">{{ phrase('show_only:') }}</span>
+								{{ phrase('filter_participated') }}</a></li>
+						</xf:if>
+						<xf:if is="$findNew.filters.started">
+							<li><a href="{{ link($rerunRoute, $rerunData, $rerunQuery + {'remove': 'started'}) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+								<span class="filterBar-filterToggle-label">{{ phrase('show_only:') }}</span>
+								{{ phrase('filter_started') }}</a></li>
+						</xf:if>
+						<xf:if is="$findNew.filters.unanswered">
+							<li><a href="{{ link($rerunRoute, $rerunData, $rerunQuery + {'remove': 'unanswered'}) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+								<span class="filterBar-filterToggle-label">{{ phrase('show_only:') }}</span>
+								{{ phrase('filter_unanswered') }}</a></li>
+						</xf:if>
+						<!--[XF:filters:bottom]-->
+					</xf:contentcheck>
+					</ul>
+				</xf:if>
+
+				<a class="filterBar-menuTrigger" data-xf-click="menu" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">{{ phrase('filters') }}</a>
+				<xf:macro name="filter_menu" arg-findNew="{$findNew}" arg-submitRoute="{$filterRoute}" />
+			</div>
+		</div>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="filter_menu" arg-findNew="!" arg-submitRoute="!">
+	<div class="menu" data-menu="menu" aria-hidden="true">
+		<div class="menu-content">
+			<h4 class="menu-header">{{ phrase('show_only:') }}</h4>
+			<xf:form action="{{ link($submitRoute) }}">
+				<div class="menu-row">
+					<xf:checkbox>
+						<xf:option name="unread" selected="{$findNew.filters.unread}">{{ phrase('unread_threads') }}</xf:option>
+						<xf:option name="watched" selected="{$findNew.filters.watched}">{{ phrase('watched_content') }}</xf:option>
+						<xf:option name="participated" selected="{$findNew.filters.participated}">{{ phrase('threads_in_which_youve_participated') }}</xf:option>
+						<xf:option name="started" selected="{$findNew.filters.started}">{{ phrase('threads_youve_started') }}</xf:option>
+						<xf:option name="unanswered" selected="{$findNew.filters.unanswered}">{{ phrase('unanswered_threads') }}</xf:option>
+						<!--[XF:filter_menu:filters_extra]-->
+					</xf:checkbox>
+				</div>
+				<!--[XF:filter_menu:below_filters]-->
+
+				<xf:macro template="filter_macros" name="find_new_filter_footer" />
+			</xf:form>
+		</div>
+	</div>
+</xf:macro>
+
+<xf:macro name="results" arg-findNew="!" arg-threads="!" arg-latestRoute="!">
+	<xf:if is="$findNew.result_count">
+		<xf:set var="$activityBarShown" value="{{ false }}" />
+		<div class="structItemContainer">
+			<xf:foreach loop="$threads" value="$thread">
+				<xf:if is="$xf.visitor.user_id AND !$activityBarShown AND $thread.last_post_date < $xf.session.previousActivity">
+					<div class="structItem structItem--note">
+						<div class="structItem-cell">{{ phrase('threads_below_not_updated_since_your_last_visit') }}</div>
+					</div>
+					<xf:set var="$activityBarShown" value="{{ true }}" />
+				</xf:if>
+
+				<xf:macro template="thread_list_macros" name="item" arg-thread="{$thread}" />
+			</xf:foreach>
+		</div>
+	<xf:else />
+		<div class="block-row">
+			<xf:if is="$xf.visitor.user_id AND ($findNew.filters.unread AND count($findNew.filters) == 1)">
+				{{ phrase('no_unread_posts_view_latest', {'link': link($latestRoute, null, {'skip': 1})}) }}
+			<xf:else />
+				{{ phrase('no_results_found') }}
+			</xf:if>
+		</div>
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="admin" title="widget_def_options_new_posts_hidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[<hr class="formRowSep" />
+
+<xf:numberboxrow name="options[limit]" value="{$options.limit}" min="1"
+	label="{{ phrase('maximum_entries') }}" />
+
+<xf:radiorow name="options[style]" value="{{ $options.style ?: 'simple' }}"
+	label="{{ phrase('display_style') }}">
+
+	<xf:option value="simple"
+		label="{{ phrase('simple') }}"
+		hint="{{ phrase('widget_display_simple_explain') }}" />
+	<xf:option value="full"
+		label="{{ phrase('full') }}"
+		hint="{{ phrase('new_posts_display_style_full_explain') }}" />
+</xf:radiorow>
+
+<xf:radiorow name="options[filter]" value="{{ $options.filter ?: 'latest' }}"
+	label="{{ phrase('filter') }}">
+
+	<xf:option value="latest"
+		label="{{ phrase('new_posts_latest') }}"
+		hint="{{ phrase('new_posts_filter_latest_explain') }}" />
+	<xf:option value="unread"
+		label="{{ phrase('new_posts_unread') }}"
+		hint="{{ phrase('new_posts_filter_unread_explain') }}" />
+	<xf:option value="watched"
+		label="{{ phrase('new_posts_watched') }}"
+		hint="{{ phrase('new_posts_filter_watched_explain') }}" />
+</xf:radiorow>
+
+<xf:selectrow name="options[node_ids][]" value="{{ $options.node_ids ?: '' }}" multiple="multiple" size="7"
+	label="{{ phrase('forum_limit') }}"
+	explain="{{ phrase('only_include_threads_in_selected_forums') }}">
+
+	<xf:option value="">{{ phrase('all_forums') }}</xf:option>
+	<xf:foreach loop="$nodeTree.getFlattened(0)" value="$treeEntry">
+		<xf:option value="{$treeEntry.record.node_id}" disabled="{{ $treeEntry.record.node_type_id != 'Forum' }}">
+			{{ repeat('&nbsp;&nbsp;', $treeEntry.depth)|raw }} {$treeEntry.record.title}
+		</xf:option>
+	</xf:foreach>
+</xf:selectrow>]]></template>
+  <template type="admin" title="widget_def_options_new_threads_hidden" version_id="100000" version_string="1.0.0 Alpha"><![CDATA[<hr class="formRowSep" />
+
+<xf:numberboxrow name="options[limit]" value="{$options.limit}" min="1"
+	label="{{ phrase('maximum_entries') }}" />
+
+<xf:radiorow name="options[style]" value="{{ $options.style ?: 'simple' }}"
+	label="{{ phrase('display_style') }}">
+
+	<xf:option value="simple"
+		label="{{ phrase('simple') }}"
+		hint="{{ phrase('widget_display_simple_explain') }}" />
+	<xf:option value="full"
+		label="{{ phrase('full') }}"
+		hint="{{ phrase('new_threads_display_style_full_explain') }}" />
+	<xf:option value="expanded"
+		label="{{ phrase('expanded') }}"
+		hint="{{ phrase('new_threads_display_style_expanded_explain') }}">
+
+		<xf:checkbox>
+			<xf:option name="options[show_expanded_title]" selected="$options.show_expanded_title">
+				{{ phrase('display_widget_title_above_list_of_threads') }}
+			</xf:option>
+		</xf:checkbox>
+	</xf:option>
+</xf:radiorow>
+
+<xf:selectrow name="options[node_ids][]" value="{{ $options.node_ids ?: '' }}" multiple="multiple" size="7"
+	label="{{ phrase('forum_limit') }}"
+	explain="{{ phrase('only_include_threads_in_selected_forums') }}">
+
+	<xf:option value="">{{ phrase('all_forums') }}</xf:option>
+	<xf:foreach loop="$nodeTree.getFlattened(0)" value="$treeEntry">
+		<xf:option value="{$treeEntry.record.node_id}" disabled="{{ $treeEntry.record.node_type_id != 'Forum' }}">
+			{{ repeat('&nbsp;&nbsp;', $treeEntry.depth)|raw }} {$treeEntry.record.title}
+		</xf:option>
+	</xf:foreach>
+</xf:selectrow>]]></template>
+</templates>

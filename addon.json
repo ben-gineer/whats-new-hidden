@@ -1,0 +1,14 @@
+{
+    "legacy_addon_id": "",
+    "title": "Drn Whats New Hidden",
+    "description": "Add-on which will display a what's new page for forums not included in regular what's new",
+    "version_id": 100067,
+    "version_string": "1.0.7",
+    "dev": "drn",
+    "dev_url": "",
+    "faq_url": "",
+    "support_url": "",
+    "extra_urls": [],
+    "require": [],
+    "icon": "fa-asterisk"
+}

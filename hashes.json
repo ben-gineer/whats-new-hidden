@@ -1,0 +1,17 @@
+{
+    "src/addons/Drn/WhatsNewHidden/addon.json": "e81e851fb9b7a21b3dc4061ee643743e7416ad8a5830fda3a4697a9934de5460",
+    "src/addons/Drn/WhatsNewHidden/ControllerPlugin/FindNewHidden.php": "7c88c37b0ed6a4232336dcf4141ebbb065be883203cda143ee1ed6275d78f84a",
+    "src/addons/Drn/WhatsNewHidden/FindNew/ThreadHidden.php": "ded59afee49c7ded997984ff4af4b85787637d73254cc49e23b04fe4b7b2356f",
+    "src/addons/Drn/WhatsNewHidden/Pub/Controller/WhatsNewHidden.php": "102b577f3c85017aec279dfba34f2ea990f35ca23d5aa89b2f35f869d1011784",
+    "src/addons/Drn/WhatsNewHidden/Pub/Controller/WhatsNewPostHidden.php": "798c2a51590b627fc99762394ef9afd17c4a91bba7d7e4227250feab1bc6b488",
+    "src/addons/Drn/WhatsNewHidden/Repository/ThreadHidden.php": "8e6354728eb222af3a37fccd827e2b2a46a2ab15390c4487460e05d70dcf97aa",
+    "src/addons/Drn/WhatsNewHidden/Widget/NewPostsHidden.php": "6f0d62b685d1d31040427b193fa3a5da6e9168ffca9684ac48087e02c43fc097",
+    "src/addons/Drn/WhatsNewHidden/Widget/NewThreadsHidden.php": "a2258ee3b1ed6b9e0091d9904f7a8a5ec68a3cd54b5a2853f4864f5df3ba49dd",
+    "src/addons/Drn/WhatsNewHidden/_data/navigation.xml": "0d8869cdcb966b6148bcaea0e0611c21b1a2705d82b192a90bc9183321b489da",
+    "src/addons/Drn/WhatsNewHidden/_data/options.xml": "e5f187e010c9b621d8c9ee633517e79ac1af1fd5a45fc9c915b1e362693c9d7a",
+    "src/addons/Drn/WhatsNewHidden/_data/option_groups.xml": "eef258207155206c1eac0c65447af39bc634758593cf376d97d5ff631c81b3ba",
+    "src/addons/Drn/WhatsNewHidden/_data/phrases.xml": "245026aeb518229656649629d5561d771e4edf1f6109f6a2549b572a70c05a26",
+    "src/addons/Drn/WhatsNewHidden/_data/routes.xml": "9c9256ecda0fe8c7c8c8df7602f6ac9a3cf0f6e30c437b9b05d8926b7aff41ca",
+    "src/addons/Drn/WhatsNewHidden/_data/templates.xml": "bc502c98c430a9bde5b640cb7ddd407f0d506375ffc26f72c26d8cc643007d39",
+    "src/addons/Drn/WhatsNewHidden/_data/widget_definitions.xml": "ed9a4e5f4f4500a05d4222429b5435c8b4a4f4590911f347e96a055a96e01615"
+}
